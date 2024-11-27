@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> RescueLink - Home</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Background with Gradient Animation */
+        body {
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1, #f3a683);
+            background-size: 300% 300%;
+            animation: gradientBackground 8s ease infinite;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            color: white;
+        }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar .closebtn {
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 36px;
+            color: white;
+        }
+
+        .openbtn {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            margin: 10px;
+        }
+
+        .openbtn:hover {
+            background-color: #444;
+        }
+
+        .main {
+            transition: margin-left 0.5s;
+            padding: 20px;
+        }
+
+        /* Header Styling with Animation */
+        header h1 {
+            text-align: center;
+            margin: 0;
+            font-size: 42px;
+            animation: textGlow 3s infinite alternate;
+        }
+
+        @keyframes textGlow {
+            from { text-shadow: 0 0 10px #ffffff, 0 0 20px #ff9a9e, 0 0 30px #fad0c4; }
+            to { text-shadow: 0 0 20px #ffffff, 0 0 30px #ff9a9e, 0 0 40px #fad0c4; }
+        }
+
+        /* Section Styling */
+        .content-overlay {
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black overlay */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h2, h3, p {
+            color: #f1f1f1;
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        ul li {
+            color: #f1f1f1;
+        }
+
+        /* Animations for Content Sections */
+        .section {
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Gallery with Animation */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            animation: zoomAndRotate 2s infinite alternate;
+        }
+
+        @keyframes zoomAndRotate {
+            from { transform: scale(1) rotate(0deg); }
+            to { transform: scale(1.05) rotate(3deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="index.html">Home</a>
+        <a href="rescue.html">Rescue</a>
+        
+        <a href="shelters.html">Safety Alerts</a>
+        <a href="donations.html">Donations</a>
+        <a href="adoption.html">Adoption</a>
+         <a href="login.html">Login</a>
+  <a href="register.html">Register</a>
+    </div>
+
+    <!-- Open Button -->
+    <header>
+        <h1>RescueLink</h1>
+        <button class="openbtn" onclick="openNav()">☰ Menu</button>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main">
+        <div class="content content-overlay">
+            <!-- Welcome Section -->
+            <div class="section">
+                <h2>Welcome to Street Dog Rescue</h2>
+                <p>Our mission is to rescue street dogs, prevent road accidents, and support shelters while facilitating donations and adoptions. Navigate through our website to explore more!</p>
+            </div>
+
+            <!-- About Street Dogs Section -->
+            <div class="section">
+                <h3>About Street Dogs</h3>
+                <p>Street dogs are often left to fend for themselves, facing challenges such as lack of food, diseases, and the dangers of urban environments. These animals are highly resilient but need our help to survive and thrive.</p>
+                <p>Our initiative aims to bring awareness, safety, and care to street dogs while building a supportive community that works together to improve their lives.</p>
+            </div>
+
+            <!-- Responsive Image Gallery -->
+            <div class="section">
+                <h3>Gallery</h3>
+                <div class="gallery">
+                    <img src="dog1.jpg" alt="Street Dog 1">
+                    <img src="dog2.jpg" alt="Street Dog 2">
+                    <img src="dog3.jpg" alt="Street Dog 3">
+                    <img src="dog4.jpg" alt="Street Dog 4">
+                </div>
+            </div>
+
+            <!-- How You Can Help Section -->
+            <div class="section">
+                <h3>How You Can Help</h3>
+                <ul>
+                    <li>Report a street dog in need of help through our <a href="rescue.html" style="color: #ffd700;">Rescue Coordination</a> page.</li>
+                    <li>Make a donation to support shelters and medical care on our <a href="donations.html" style="color: #ffd700;">Donations</a> page.</li>
+                    <li>Adopt a dog and give them a loving home through our <a href="adoption.html" style="color: #ffd700;">Adoption</a> platform.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Sidebar -->
+    <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+            document.querySelector(".main").style.marginLeft = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.querySelector(".main").style.marginLeft = "0";
+        }
+    </script>
+</body>
+</html>

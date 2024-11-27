@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adopt a Dog</title>
+    <style>
+        /* Background Animation */
+        body {
+            background: linear-gradient(-45deg, #f6d365, #fda085, #fbc2eb, #a1c4fd);
+            background-size: 300% 300%;
+            animation: gradientBackground 8s ease infinite;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            color: #333;
+        }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Header Glow Animation */
+        header h1 {
+            text-align: center;
+            margin: 0;
+            font-size: 42px;
+            color: white;
+            animation: textGlow 3s infinite alternate;
+        }
+
+        @keyframes textGlow {
+            from { text-shadow: 0 0 10px #ffffff, 0 0 20px #f6d365, 0 0 30px #fda085; }
+            to { text-shadow: 0 0 20px #ffffff, 0 0 30px #f6d365, 0 0 40px #fda085; }
+        }
+
+        /* Navigation */
+        nav {
+            text-align: center;
+            margin: 10px 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        nav a:hover {
+            color: #ffd700;
+        }
+
+        /* Main Content */
+        main {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .dog-profiles {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .dog {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .dog img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .dog h3 {
+            margin-bottom: 10px;
+            font-size: 24px;
+            color: #fda085;
+        }
+
+        .dog p {
+            margin: 5px 0;
+        }
+
+        .dog button {
+            padding: 10px 20px;
+            background-color: #f6d365;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .dog button:hover {
+            background-color: #fda085;
+        }
+
+        /* Popup Styling */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            z-index: 10;
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .popup.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .popup h3 {
+            margin: 0;
+            color: #fda085;
+        }
+
+        .popup p {
+            color: #333;
+        }
+
+        .popup button {
+            padding: 10px 20px;
+            background-color: #fda085;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .popup button:hover {
+            background-color: #f6d365;
+        }
+
+        /* Dim Background when Popup is Active */
+        .dimmed {
+            background: rgba(0, 0, 0, 0.5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <h1>Street Dog Rescue</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="rescue.html">Rescue</a>
+            <a href="shelters.html">Safety Alerts</a>
+            <a href="donations.html">Donations</a>
+            <a href="adoption.html">Adoption</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <h2>Adopt a Dog</h2>
+        <div class="dog-profiles">
+            <!-- Dog 1 -->
+            <div class="dog">
+                <img src="dog1.jpg" alt="Buddy">
+                <h3>Buddy</h3>
+                <p>Age: 2 years</p>
+                <p>Breed: Labrador Mix</p>
+                <p>Personality: Playful and friendly</p>
+                <button onclick="showPopup('Buddy', '2 years', 'Labrador Mix', 'Playful and friendly')">Adopt Buddy</button>
+            </div>
+            <!-- Dog 2 -->
+            <div class="dog">
+                <img src="dog2.jpg" alt="Rosie">
+                <h3>Rosie</h3>
+                <p>Age: 3 years</p>
+                <p>Breed: Golden Retriever Mix</p>
+                <p>Personality: Gentle and calm</p>
+                <button onclick="showPopup('Rosie', '3 years', 'Golden Retriever Mix', 'Gentle and calm')">Adopt Rosie</button>
+            </div>
+            <!-- Dog 3 -->
+            <div class="dog">
+                <img src="dog3.jpg" alt="Max">
+                <h3>Max</h3>
+                <p>Age: 1 year</p>
+                <p>Breed: Beagle Mix</p>
+                <p>Personality: Energetic and curious</p>
+                <button onclick="showPopup('Max', '1 year', 'Beagle Mix', 'Energetic and curious')">Adopt Max</button>
+            </div>
+            <!-- Dog 4 -->
+            <div class="dog">
+                <img src="dog10.jpg" alt="Lucy">
+                <h3>Lucy</h3>
+                <p>Age: 4 years</p>
+                <p>Breed: German Shepherd Mix</p>
+                <p>Personality: Loyal and protective</p>
+                <button onclick="showPopup('Lucy', '4 years', 'German Shepherd Mix', 'Loyal and protective')">Adopt Lucy</button>
+            </div>
+            <!-- Dog 5 -->
+            <div class="dog">
+                <img src="dog11.jpg" alt="Charlie">
+                <h3>Charlie</h3>
+                <p>Age: 2 years</p>
+                <p>Breed: Poodle Mix</p>
+                <p>Personality: Smart and playful</p>
+                <button onclick="showPopup('Charlie', '2 years', 'Poodle Mix', 'Smart and playful')">Adopt Charlie</button>
+            </div>
+            <!-- Dog 6 -->
+            <div class="dog">
+                <img src="dog12.jpg" alt="Bella">
+                <h3>Bella</h3>
+                <p>Age: 3 years</p>
+                <p>Breed: Dalmatian Mix</p>
+                <p>Personality: Energetic and loving</p>
+                <button onclick="showPopup('Bella', '3 years', 'Dalmatian Mix', 'Energetic and loving')">Adopt Bella</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Popup -->
+    <div class="popup" id="popup">
+        <h3 id="dogName">Dog Name</h3>
+        <p id="dogAge">Age: </p>
+        <p id="dogBreed">Breed: </p>
+        <p id="dogPersonality">Personality: </p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <!-- Dimmed Background -->
+    <div class="dimmed" id="dimmed" style="display: none;"></div>
+
+    <script>
+        function showPopup(name, age, breed, personality) {
+            document.getElementById('dogName').textContent = name;
+            document.getElementById('dogAge').textContent = 'Age: ' + age;
+            document.getElementById('dogBreed').textContent = 'Breed: ' + breed;
+            document.getElementById('dogPersonality').textContent = 'Personality: ' + personality;
+
+            document.getElementById('popup').classList.add('show');
+            document.getElementById('dimmed').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').classList.remove('show');
+            document.getElementById('dimmed').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

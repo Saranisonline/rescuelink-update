@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rescue Coordination</title>
+    <style>
+        /* Background Animation */
+        body {
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1, #f3a683);
+            background-size: 300% 300%;
+            animation: gradientBackground 8s ease infinite;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            color: white;
+        }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Form Styling */
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+
+        form {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            text-align: left;
+        }
+
+        label {
+            color: #f1f1f1;
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #ffd700;
+            color: #333;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #ffbf00;
+        }
+
+        textarea {
+            resize: none;
+            height: 80px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        nav {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Notification Styling */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+    <script>
+        // Function to save rescue details to localStorage
+        function saveRescueDetails() {
+            var dogName = document.getElementById('dogName').value;
+            var dogLocation = document.getElementById('dogLocation').value;
+            var dogCondition = document.getElementById('dogCondition').value;
+            var contactDetails = document.getElementById('contactDetails').value;
+
+            // Create an object to hold the rescue details
+            var rescueDetails = {
+                dogName: dogName,
+                dogLocation: dogLocation,
+                dogCondition: dogCondition,
+                contactDetails: contactDetails
+            };
+
+            // Save the object in localStorage
+            var rescues = JSON.parse(localStorage.getItem('rescues')) || [];
+            rescues.push(rescueDetails);
+            localStorage.setItem('rescues', JSON.stringify(rescues));
+
+            // Clear the form fields
+            document.getElementById('rescueForm').reset();
+
+            // Show notification
+            showNotification('Rescue details saved successfully!');
+        }
+
+        // Function to show a notification
+        function showNotification(message) {
+            var notification = document.querySelector('.notification');
+            notification.innerText = message;
+            notification.style.display = 'block';
+
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <h1>Street Dog Rescue</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="rescue.html">Rescue</a>
+            <a href="shelters.html">Safety Alerts</a>
+            <a href="donations.html">Donations</a>
+            <a href="adoption.html">Adoption</a>
+            <a href="view_rescue.html">View Rescues</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <h2>Rescue Coordination</h2>
+        <p>Fill out the details to report a street dog in need of help.</p>
+        
+        <form id="rescueForm">
+            <label for="dogName">Dog Name:</label>
+            <input type="text" id="dogName" required>
+
+            <label for="dogLocation">Location:</label>
+            <input type="text" id="dogLocation" required>
+
+            <label for="dogCondition">Condition:</label>
+            <textarea id="dogCondition" required></textarea>
+
+            <label for="contactDetails">Your Contact Details:</label>
+            <input type="text" id="contactDetails" required>
+
+            <button type="button" onclick="saveRescueDetails()">Save Rescue Details</button>
+        </form>
+    </main>
+
+    <!-- Notification -->
+    <div class="notification"></div>
+</body>
+</html>
