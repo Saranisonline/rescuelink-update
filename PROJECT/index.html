@@ -137,6 +137,42 @@
             from { transform: scale(1) rotate(0deg); }
             to { transform: scale(1.05) rotate(3deg); }
         }
+
+        /* Video Section Styling */
+        .video-section {
+            margin-top: 40px;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .video-section h3 {
+            color: #ffd700; /* Golden color for heading */
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .video-section iframe {
+            width: 80%; /* Responsive width */
+            max-width: 800px;
+            height: 450px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .video-section p {
+            margin-top: 10px;
+            color: #f1f1f1;
+            font-size: 18px;
+        }
+
+        /* Adding subtle hover effect */
+        .video-section iframe:hover {
+            transform: scale(1.02);
+            transition: transform 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -145,12 +181,11 @@
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
         <a href="index.html">Home</a>
         <a href="rescue.html">Rescue</a>
-        
         <a href="shelters.html">Safety Alerts</a>
         <a href="donations.html">Donations</a>
         <a href="adoption.html">Adoption</a>
-         <a href="login.html">Login</a>
-  <a href="register.html">Register</a>
+        <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
     </div>
 
     <!-- Open Button -->
@@ -194,6 +229,16 @@
                     <li>Make a donation to support shelters and medical care on our <a href="donations.html" style="color: #ffd700;">Donations</a> page.</li>
                     <li>Adopt a dog and give them a loving home through our <a href="adoption.html" style="color: #ffd700;">Adoption</a> platform.</li>
                 </ul>
+            </div>
+
+            <!-- Video Section -->
+            <div class="video-section">
+                <h3>Watch Our India has a Big Stray Dogs Problem</h3>
+                <iframe 
+                    src="rescue-video.mp4.mp4"
+                    allowfullscreen>
+                </iframe>
+                <p>If you live in India, there rarely would've been a single day passing by without you facing a stray dog. In fact, it's not just about them being everywhere, it's about the fact that they keep attacking different people. Many incidents of loss of lives have been reported due to stray dog attacks in various places. But the question is why all this is happening? Why no talks about this issue? What can be the way out? Watch this video to find out where I talk about this strange Stray dogs problem in India..</p>
             </div>
         </div>
     </div>
