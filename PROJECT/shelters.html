@@ -6,7 +6,7 @@
     <title>Road Safety Alerts</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Background Animation */
+        /* Existing styles retained */
         body {
             background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1, #f3a683);
             background-size: 300% 300%;
@@ -22,7 +22,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Header Glow Animation */
         header h1 {
             text-align: center;
             margin: 0;
@@ -35,7 +34,6 @@
             to { text-shadow: 0 0 20px #ffffff, 0 0 30px #ff9a9e, 0 0 40px #fad0c4; }
         }
 
-        /* Navigation Styling */
         nav {
             text-align: center;
             margin-bottom: 20px;
@@ -54,7 +52,6 @@
             color: #ff9a9e;
         }
 
-        /* Main Content */
         main {
             padding: 20px;
             text-align: center;
@@ -63,7 +60,6 @@
         h2 {
             animation: fadeInDown 1s ease;
             font-size: 2rem;
-            text-align: center;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
             margin-top: 20px;
         }
@@ -80,7 +76,6 @@
             margin-top: 20px;
         }
 
-        /* Alert Container */
         .alert-container {
             display: flex;
             flex-wrap: wrap;
@@ -112,18 +107,52 @@
             color: white;
         }
 
-        button {
-            padding: 10px 20px;
-            background-color: #ffd700;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
+        .alert-card .input-section {
             margin-top: 20px;
+            text-align: left;
         }
 
-        button:hover {
+        .alert-card input, .alert-card button, .alert-card textarea {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            width: calc(100% - 20px);
+            box-sizing: border-box;
+        }
+
+        .alert-card button {
+            background-color: #ffd700;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .alert-card button:hover {
             background-color: #ffbf00;
+        }
+
+        /* User Alerts Section */
+        .user-alert-container {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+        }
+
+        .user-alert {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.9);
+            border-radius: 10px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .alert-card, .user-alert {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -134,7 +163,6 @@
         <nav>
             <a href="index.html">Home</a>
             <a href="rescue.html">Rescue</a>
-            
             <a href="shelters.html">Safety Alerts</a>
             <a href="donations.html">Donations</a>
             <a href="adoption.html">Adoption</a>
@@ -146,24 +174,99 @@
         <h2>Road Safety Alerts</h2>
         <p>Stay informed about the latest street dog rescue alerts, potential road accidents, and safety tips to keep these animals safe.</p>
 
-        <!-- Alert Cards -->
+        <!-- Alert Cards with Input Section -->
         <div class="alert-container">
+            <!-- Alert 1 -->
             <div class="alert-card">
                 <h3>Alert 1: Dog on Highway</h3>
                 <p>There is a stray dog spotted near the highway. Please avoid the area and report the sighting to the nearest shelter.</p>
-                <button onclick="alert('Thank you for your report!')">Report This Alert</button>
+                <div class="input-section">
+                    <input type="text" id="location-alert1" placeholder="Enter Location" />
+                    <textarea id="details-alert1" placeholder="Enter Alert Details" rows="3"></textarea>
+                    <button onclick="submitAlert('location-alert1', 'details-alert1')">Submit Alert</button>
+                </div>
             </div>
+
+            <!-- Alert 2 -->
             <div class="alert-card">
                 <h3>Alert 2: Stray Dog in Danger</h3>
                 <p>A dog is in danger near the park entrance. Please drive carefully and report it to local authorities for rescue.</p>
-                <button onclick="alert('Thank you for your report!')">Report This Alert</button>
+                <div class="input-section">
+                    <input type="text" id="location-alert2" placeholder="Enter Location" />
+                    <textarea id="details-alert2" placeholder="Enter Alert Details" rows="3"></textarea>
+                    <button onclick="submitAlert('location-alert2', 'details-alert2')">Submit Alert</button>
+                </div>
             </div>
+
+            <!-- Alert 3 -->
             <div class="alert-card">
                 <h3>Alert 3: Dog Crossing Street</h3>
                 <p>A dog has been seen crossing the main road near the market. Slow down in this area to avoid accidents.</p>
-                <button onclick="alert('Thank you for your report!')">Report This Alert</button>
+                <div class="input-section">
+                    <input type="text" id="location-alert3" placeholder="Enter Location" />
+                    <textarea id="details-alert3" placeholder="Enter Alert Details" rows="3"></textarea>
+                    <button onclick="submitAlert('location-alert3', 'details-alert3')">Submit Alert</button>
+                </div>
+            </div>
+
+            <!-- Alert 4 -->
+            <div class="alert-card">
+                <h3>Alert 4: Dog Near School</h3>
+                <p>A stray dog has been seen wandering near the school premises. Exercise caution when dropping off or picking up children.</p>
+                <div class="input-section">
+                    <input type="text" id="location-alert4" placeholder="Enter Location" />
+                    <textarea id="details-alert4" placeholder="Enter Alert Details" rows="3"></textarea>
+                    <button onclick="submitAlert('location-alert4', 'details-alert4')">Submit Alert</button>
+                </div>
             </div>
         </div>
+
+        <!-- User Alerts Section -->
+        <div class="user-alert-container" id="user-alert-container">
+            <h3>User Submitted Alerts</h3>
+        </div>
     </main>
+
+    <script>
+        // Retrieve and display stored alerts when the page loads
+        window.onload = function() {
+            const storedAlerts = JSON.parse(localStorage.getItem('alerts')) || [];
+            const userAlertContainer = document.getElementById('user-alert-container');
+            storedAlerts.forEach(alert => {
+                const userAlert = document.createElement('div');
+                userAlert.className = 'user-alert';
+                userAlert.innerHTML = `<strong>Location:</strong> ${alert.location}<br><strong>Details:</strong> ${alert.details}`;
+                userAlertContainer.appendChild(userAlert);
+            });
+        }
+
+        // Function to submit and store alerts
+        function submitAlert(locationId, detailsId) {
+            const location = document.getElementById(locationId).value.trim();
+            const details = document.getElementById(detailsId).value.trim();
+
+            if (location && details) {
+                const userAlertContainer = document.getElementById('user-alert-container');
+
+                // Create a new alert element
+                const userAlert = document.createElement('div');
+                userAlert.className = 'user-alert';
+                userAlert.innerHTML = `<strong>Location:</strong> ${location}<br><strong>Details:</strong> ${details}`;
+
+                userAlertContainer.appendChild(userAlert);
+
+                // Store the alert in localStorage
+                const storedAlerts = JSON.parse(localStorage.getItem('alerts')) || [];
+                storedAlerts.push({ location, details });
+                localStorage.setItem('alerts', JSON.stringify(storedAlerts));
+
+                // Clear the input fields
+                document.getElementById(locationId).value = '';
+                document.getElementById(detailsId).value = '';
+            } else {
+                alert('Please enter both location and alert details.');
+            }
+        }
+    </script>
 </body>
 </html>
