@@ -80,6 +80,11 @@
             padding: 15px;
             width: 300px;
             text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .dog:hover {
+            transform: scale(1.05);
         }
 
         .dog img {
@@ -106,6 +111,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            transition: background-color 0.3s ease;
         }
 
         .dog button:hover {
@@ -168,6 +174,59 @@
         .show-form-btn:hover {
             background-color: #f6d365;
         }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dog-profiles {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .dog {
+                width: 90%;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Popup for Adoption Details */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .popup-content h2 {
+            margin: 10px 0;
+        }
+
+        .popup-content button {
+            padding: 10px 20px;
+            background-color: #fda085;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .popup-content button:hover {
+            background-color: #f6d365;
+        }
     </style>
 </head>
 <body>
@@ -182,7 +241,8 @@
             <a href="adoption.html">Adoption</a>
         </nav>
     </header>
-<!-- Main Content -->
+
+    <!-- Main Content -->
     <main>
         <h2>Adopt a Dog</h2>
         <div class="dog-profiles">
@@ -243,7 +303,33 @@
         </div>
     </main>
 
- 
+    <!-- Popup for Adoption Details -->
+    <div class="popup" id="adoptionPopup">
+        <div class="popup-content">
+            <h2 id="dogName"></h2>
+            <p>Age: <span id="dogAge"></span></p>
+            <p>Breed: <span id="dogBreed"></span></p>
+            <p>Personality: <span id="dogPersonality"></span></p>
+            <button onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to show popup with dog details
+        function showPopup(name, age, breed, personality) {
+            document.getElementById('dogName').textContent = name;
+            document.getElementById('dogAge').textContent = age;
+            document.getElementById('dogBreed').textContent = breed;
+            document.getElementById('dogPersonality').textContent = personality;
+            document.getElementById('adoptionPopup').style.display = 'flex';
+        }
+
+        // Function to close the popup
+        function closePopup() {
+            document.getElementById('adoptionPopup').style.display = 'none';
+        }
+    </script>
+
     <!-- Main Content -->
     <main>
         
@@ -338,5 +424,6 @@
         // Load dog profiles when the page loads
         window.onload = loadDogProfiles;
     </script>
+
 </body>
 </html>
