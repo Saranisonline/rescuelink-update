@@ -70,6 +70,7 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
+            margin-top: 20px;
         }
 
         .dog {
@@ -111,39 +112,49 @@
             background-color: #fda085;
         }
 
-        /* Popup Styling */
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
+        /* Add Dog Form */
+        .add-dog-form {
+            display: none; /* Initially hidden */
+            margin: 30px auto;
+            text-align: left;
             background: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 90%;
             max-width: 400px;
-            text-align: center;
-            z-index: 10;
-            opacity: 0;
-            transition: all 0.3s ease-in-out;
         }
 
-        .popup.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
+        .add-dog-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
 
-        .popup h3 {
-            margin: 0;
-            color: #fda085;
+        .add-dog-form input, .add-dog-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
-        .popup p {
-            color: #333;
+        .add-dog-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #fda085;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
         }
 
-        .popup button {
+        .add-dog-form button:hover {
+            background-color: #f6d365;
+        }
+
+        /* Show/Hide Button */
+        .show-form-btn {
             padding: 10px 20px;
             background-color: #fda085;
             color: white;
@@ -151,22 +162,11 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            margin-top: 20px;
+            margin: 20px 0;
         }
 
-        .popup button:hover {
+        .show-form-btn:hover {
             background-color: #f6d365;
-        }
-
-        /* Dim Background when Popup is Active */
-        .dimmed {
-            background: rgba(0, 0, 0, 0.5);
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 5;
         }
     </style>
 </head>
@@ -182,8 +182,7 @@
             <a href="adoption.html">Adoption</a>
         </nav>
     </header>
-
-    <!-- Main Content -->
+<!-- Main Content -->
     <main>
         <h2>Adopt a Dog</h2>
         <div class="dog-profiles">
@@ -244,33 +243,100 @@
         </div>
     </main>
 
-    <!-- Popup -->
-    <div class="popup" id="popup">
-        <h3 id="dogName">Dog Name</h3>
-        <p id="dogAge">Age: </p>
-        <p id="dogBreed">Breed: </p>
-        <p id="dogPersonality">Personality: </p>
-        <button onclick="closePopup()">Close</button>
-    </div>
+ 
+    <!-- Main Content -->
+    <main>
+        
+        <div class="dog-profiles" id="dogProfiles">
+            <!-- Dog Profiles will be dynamically loaded here -->
+        </div>
 
-    <!-- Dimmed Background -->
-    <div class="dimmed" id="dimmed" style="display: none;"></div>
+        <!-- Button to Show Add Dog Form -->
+        <button class="show-form-btn" onclick="toggleAddDogForm()">Add a Dog</button>
+
+        <!-- Add Dog Form -->
+        <div class="add-dog-form" id="addDogForm">
+            <h2>Add a Dog</h2>
+            <form id="addDogFormForm">
+                <label for="dogName">Dog Name</label>
+                <input type="text" id="dogName" required>
+
+                <label for="dogAge">Age</label>
+                <input type="text" id="dogAge" required>
+
+                <label for="dogBreed">Breed</label>
+                <input type="text" id="dogBreed" required>
+
+                <label for="dogPersonality">Personality</label>
+                <textarea id="dogPersonality" rows="3" required></textarea>
+
+                <label for="dogImage">Upload Image</label>
+                <input type="file" id="dogImage" accept="image/*" required>
+
+                <button type="submit">Add Dog</button>
+            </form>
+        </div>
+    </main>
 
     <script>
-        function showPopup(name, age, breed, personality) {
-            document.getElementById('dogName').textContent = name;
-            document.getElementById('dogAge').textContent = 'Age: ' + age;
-            document.getElementById('dogBreed').textContent = 'Breed: ' + breed;
-            document.getElementById('dogPersonality').textContent = 'Personality: ' + personality;
-
-            document.getElementById('popup').classList.add('show');
-            document.getElementById('dimmed').style.display = 'block';
+        // Toggle visibility of the Add Dog form
+        function toggleAddDogForm() {
+            const form = document.getElementById('addDogForm');
+            form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
         }
 
-        function closePopup() {
-            document.getElementById('popup').classList.remove('show');
-            document.getElementById('dimmed').style.display = 'none';
+        // Handle form submission and save to localStorage
+        document.getElementById('addDogFormForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('dogName').value;
+            const age = document.getElementById('dogAge').value;
+            const breed = document.getElementById('dogBreed').value;
+            const personality = document.getElementById('dogPersonality').value;
+            const image = document.getElementById('dogImage').files[0];
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const newDog = {
+                    name,
+                    age,
+                    breed,
+                    personality,
+                    image: e.target.result
+                };
+
+                const dogProfiles = JSON.parse(localStorage.getItem('dogProfiles')) || [];
+                dogProfiles.push(newDog);
+                localStorage.setItem('dogProfiles', JSON.stringify(dogProfiles));
+                loadDogProfiles();
+            };
+            reader.readAsDataURL(image);
+
+            this.reset();
+        });
+
+        // Load dog profiles from localStorage
+        function loadDogProfiles() {
+            const dogProfiles = JSON.parse(localStorage.getItem('dogProfiles')) || [];
+            const profilesContainer = document.getElementById('dogProfiles');
+            profilesContainer.innerHTML = '';
+
+            dogProfiles.forEach(profile => {
+                const dogDiv = document.createElement('div');
+                dogDiv.classList.add('dog');
+                dogDiv.innerHTML = `
+                    <img src="${profile.image}" alt="${profile.name}">
+                    <h3>${profile.name}</h3>
+                    <p>Age: ${profile.age}</p>
+                    <p>Breed: ${profile.breed}</p>
+                    <p>Personality: ${profile.personality}</p>
+                `;
+                profilesContainer.appendChild(dogDiv);
+            });
         }
+
+        // Load dog profiles when the page loads
+        window.onload = loadDogProfiles;
     </script>
 </body>
 </html>
