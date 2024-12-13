@@ -175,19 +175,6 @@
             background-color: #f6d365;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .dog-profiles {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .dog {
-                width: 90%;
-                margin-bottom: 20px;
-            }
-        }
-
         /* Popup for Adoption Details */
         .popup {
             display: none;
@@ -247,61 +234,35 @@
         <h2>Adopt a Dog</h2>
         <div class="dog-profiles">
             <!-- Dog 1 -->
-            <div class="dog">
+            <div class="dog" id="dog1">
                 <img src="dog1.jpg" alt="Buddy">
                 <h3>Buddy</h3>
                 <p>Age: 2 years</p>
                 <p>Breed: Labrador Mix</p>
                 <p>Personality: Playful and friendly</p>
-                <button onclick="showPopup('Buddy', '2 years', 'Labrador Mix', 'Playful and friendly')">Adopt Buddy</button>
+                <button onclick="showPopup('Buddy', '2 years', 'Labrador Mix', 'Playful and friendly', 'dog1.jpg')">Adopt Buddy</button>
             </div>
             <!-- Dog 2 -->
-            <div class="dog">
+            <div class="dog" id="dog2">
                 <img src="dog2.jpg" alt="Rosie">
                 <h3>Rosie</h3>
                 <p>Age: 3 years</p>
                 <p>Breed: Golden Retriever Mix</p>
                 <p>Personality: Gentle and calm</p>
-                <button onclick="showPopup('Rosie', '3 years', 'Golden Retriever Mix', 'Gentle and calm')">Adopt Rosie</button>
+                <button onclick="showPopup('Rosie', '3 years', 'Golden Retriever Mix', 'Gentle and calm', 'dog2.jpg')">Adopt Rosie</button>
             </div>
             <!-- Dog 3 -->
-            <div class="dog">
+            <div class="dog" id="dog3">
                 <img src="dog3.jpg" alt="Max">
                 <h3>Max</h3>
                 <p>Age: 1 year</p>
                 <p>Breed: Beagle Mix</p>
                 <p>Personality: Energetic and curious</p>
-                <button onclick="showPopup('Max', '1 year', 'Beagle Mix', 'Energetic and curious')">Adopt Max</button>
-            </div>
-            <!-- Dog 4 -->
-            <div class="dog">
-                <img src="dog10.jpg" alt="Lucy">
-                <h3>Lucy</h3>
-                <p>Age: 4 years</p>
-                <p>Breed: German Shepherd Mix</p>
-                <p>Personality: Loyal and protective</p>
-                <button onclick="showPopup('Lucy', '4 years', 'German Shepherd Mix', 'Loyal and protective')">Adopt Lucy</button>
-            </div>
-            <!-- Dog 5 -->
-            <div class="dog">
-                <img src="dog11.jpg" alt="Charlie">
-                <h3>Charlie</h3>
-                <p>Age: 2 years</p>
-                <p>Breed: Poodle Mix</p>
-                <p>Personality: Smart and playful</p>
-                <button onclick="showPopup('Charlie', '2 years', 'Poodle Mix', 'Smart and playful')">Adopt Charlie</button>
-            </div>
-            <!-- Dog 6 -->
-            <div class="dog">
-                <img src="dog12.jpg" alt="Bella">
-                <h3>Bella</h3>
-                <p>Age: 3 years</p>
-                <p>Breed: Dalmatian Mix</p>
-                <p>Personality: Energetic and loving</p>
-                <button onclick="showPopup('Bella', '3 years', 'Dalmatian Mix', 'Energetic and loving')">Adopt Bella</button>
+                <button onclick="showPopup('Max', '1 year', 'Beagle Mix', 'Energetic and curious', 'dog3.jpg')">Adopt Max</button>
             </div>
         </div>
-        <!-- Button to Show Add Dog Form -->
+
+        <!-- Add Dog Form -->
         <button class="show-form-btn" onclick="toggleAddDogForm()">Add a Dog</button>
 
         <!-- Add Dog Form -->
@@ -333,21 +294,23 @@
     <!-- Popup for Adoption Details -->
     <div class="popup" id="adoptionPopup">
         <div class="popup-content">
-            <h2 id="dogName"></h2>
-            <p>Age: <span id="dogAge"></span></p>
-            <p>Breed: <span id="dogBreed"></span></p>
-            <p>Personality: <span id="dogPersonality"></span></p>
+            <h2 id="popupName"></h2>
+            <p>Age: <span id="popupAge"></span></p>
+            <p>Breed: <span id="popupBreed"></span></p>
+            <p>Personality: <span id="popupPersonality"></span></p>
+            <img src="" alt="Dog Image" id="popupImage" width="300px">
             <button onclick="closePopup()">Close</button>
         </div>
     </div>
 
     <script>
         // Function to show popup with dog details
-        function showPopup(name, age, breed, personality) {
-            document.getElementById('dogName').textContent = name;
-            document.getElementById('dogAge').textContent = age;
-            document.getElementById('dogBreed').textContent = breed;
-            document.getElementById('dogPersonality').textContent = personality;
+        function showPopup(name, age, breed, personality, image) {
+            document.getElementById('popupName').textContent = name;
+            document.getElementById('popupAge').textContent = age;
+            document.getElementById('popupBreed').textContent = breed;
+            document.getElementById('popupPersonality').textContent = personality;
+            document.getElementById('popupImage').src = image;
             document.getElementById('adoptionPopup').style.display = 'flex';
         }
 
@@ -406,7 +369,7 @@
                     <p>Age: ${dog.age}</p>
                     <p>Breed: ${dog.breed}</p>
                     <p>Personality: ${dog.personality}</p>
-                    <button onclick="showPopup('${dog.name}', '${dog.age}', '${dog.breed}', '${dog.personality}')">Adopt ${dog.name}</button>
+                    <button onclick="showPopup('${dog.name}', '${dog.age}', '${dog.breed}', '${dog.personality}', '${dog.image}')">Adopt ${dog.name}</button>
                 `;
                 dogProfilesContainer.appendChild(dogDiv);
             });
