@@ -301,6 +301,33 @@
                 <button onclick="showPopup('Bella', '3 years', 'Dalmatian Mix', 'Energetic and loving')">Adopt Bella</button>
             </div>
         </div>
+        <!-- Button to Show Add Dog Form -->
+        <button class="show-form-btn" onclick="toggleAddDogForm()">Add a Dog</button>
+
+        <!-- Add Dog Form -->
+        <div class="add-dog-form" id="addDogForm">
+            <h2>Add a Dog</h2>
+            <form id="addDogFormForm">
+                <label for="dogName">Dog Name</label>
+                <input type="text" id="dogName" required>
+
+                <label for="dogAge">Age</label>
+                <input type="text" id="dogAge" required>
+
+                <label for="dogBreed">Breed</label>
+                <input type="text" id="dogBreed" required>
+
+                <label for="dogPersonality">Personality</label>
+                <textarea id="dogPersonality" rows="3" required></textarea>
+
+                <label for="dogImage">Upload Image</label>
+                <input type="file" id="dogImage" accept="image/*" required>
+
+                <button type="submit">Add Dog</button>
+            </form>
+        </div>
+
+        <div class="dog-profiles" id="dogProfiles"></div>
     </main>
 
     <!-- Popup for Adoption Details -->
@@ -328,43 +355,7 @@
         function closePopup() {
             document.getElementById('adoptionPopup').style.display = 'none';
         }
-    </script>
 
-    <!-- Main Content -->
-    <main>
-        
-        <div class="dog-profiles" id="dogProfiles">
-            <!-- Dog Profiles will be dynamically loaded here -->
-        </div>
-
-        <!-- Button to Show Add Dog Form -->
-        <button class="show-form-btn" onclick="toggleAddDogForm()">Add a Dog</button>
-
-        <!-- Add Dog Form -->
-        <div class="add-dog-form" id="addDogForm">
-            <h2>Add a Dog</h2>
-            <form id="addDogFormForm">
-                <label for="dogName">Dog Name</label>
-                <input type="text" id="dogName" required>
-
-                <label for="dogAge">Age</label>
-                <input type="text" id="dogAge" required>
-
-                <label for="dogBreed">Breed</label>
-                <input type="text" id="dogBreed" required>
-
-                <label for="dogPersonality">Personality</label>
-                <textarea id="dogPersonality" rows="3" required></textarea>
-
-                <label for="dogImage">Upload Image</label>
-                <input type="file" id="dogImage" accept="image/*" required>
-
-                <button type="submit">Add Dog</button>
-            </form>
-        </div>
-    </main>
-
-    <script>
         // Toggle visibility of the Add Dog form
         function toggleAddDogForm() {
             const form = document.getElementById('addDogForm');
@@ -397,34 +388,34 @@
                 loadDogProfiles();
             };
             reader.readAsDataURL(image);
-
-            this.reset();
         });
 
         // Load dog profiles from localStorage
         function loadDogProfiles() {
             const dogProfiles = JSON.parse(localStorage.getItem('dogProfiles')) || [];
-            const profilesContainer = document.getElementById('dogProfiles');
-            profilesContainer.innerHTML = '';
+            const dogProfilesContainer = document.getElementById('dogProfiles');
+            dogProfilesContainer.innerHTML = '';
 
-            dogProfiles.forEach(profile => {
+            dogProfiles.forEach(dog => {
                 const dogDiv = document.createElement('div');
                 dogDiv.classList.add('dog');
+
                 dogDiv.innerHTML = `
-                    <img src="${profile.image}" alt="${profile.name}">
-                    <h3>${profile.name}</h3>
-                    <p>Age: ${profile.age}</p>
-                    <p>Breed: ${profile.breed}</p>
-                    <p>Personality: ${profile.personality}</p>
-                    <button onclick="showPopup('${profile.name}', '${profile.age}', '${profile.breed}', '${profile.personality}')">Adopt ${profile.name}</button>
+                    <img src="${dog.image}" alt="${dog.name}">
+                    <h3>${dog.name}</h3>
+                    <p>Age: ${dog.age}</p>
+                    <p>Breed: ${dog.breed}</p>
+                    <p>Personality: ${dog.personality}</p>
+                    <button onclick="showPopup('${dog.name}', '${dog.age}', '${dog.breed}', '${dog.personality}')">Adopt ${dog.name}</button>
                 `;
-                profilesContainer.appendChild(dogDiv);
+                dogProfilesContainer.appendChild(dogDiv);
             });
         }
 
-        // Load dog profiles when the page loads
-        window.onload = loadDogProfiles;
+        // Load the dog profiles when the page loads
+        window.onload = function () {
+            loadDogProfiles();
+        };
     </script>
-
 </body>
 </html>
