@@ -145,94 +145,12 @@
         }
 
         /* In-App Messaging Section */
-        .chat-box {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 300px;
-            height: 400px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 10px;
-            animation: slideIn 0.5s ease-out;
-            display: none; /* Initially hidden */
-        }
-
-        .header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            border-radius: 8px;
+        .in-app-messaging {
             text-align: center;
-            animation: fadeInDown 1s ease;
+            margin-top: 40px;
         }
 
-        .messages-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px;
-            animation: fadeInUp 1s ease;
-        }
-
-        .message {
-            margin-bottom: 10px;
-            padding: 8px;
-            border-radius: 5px;
-            opacity: 0;
-            animation: fadeInMessage 0.5s forwards;
-        }
-
-        .sender {
-            background-color: #d1f8d1;
-            color: #2e7d32;
-            text-align: left;
-        }
-
-        .receiver {
-            background-color: #f1f1f1;
-            color: #757575;
-            text-align: right;
-        }
-
-        .input-container {
-            display: flex;
-            padding: 10px;
-            border-top: 1px solid #ddd;
-        }
-
-        #message-input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-
-        #message-input:focus {
-            border-color: #4CAF50;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        }
-
-        #send-button {
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        #send-button:hover {
-            background-color: #45a049;
-        }
-
-        /* Chat Toggle Button */
-        #chat-toggle {
+        .open-link-btn {
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -243,9 +161,10 @@
             font-size: 18px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            animation: fadeInUp 1s ease;
         }
 
-        #chat-toggle:hover {
+        .open-link-btn:hover {
             background-color: #45a049;
         }
 
@@ -338,9 +257,7 @@
     <div class="payment-methods">
         <h3>Donate Using the Following Payment Methods</h3>
         <p>We accept various payment methods to make the donation process easier for you.</p>
-       <a href=" https://www.paypal.com/in/home" target="_blank">
         <img src="p.jpg" alt="PayPal">
-       </a>
         <a href="https://www.visa.com" target="_blank">
             <img src="cd.jpg" alt="Credit Card">
         </a>
@@ -353,44 +270,16 @@
     </div>
 
     <!-- In-App Messaging Section -->
-    <div class="chat-box" id="chat-box">
-        <div class="header">Messages</div>
-        <div class="messages-container" id="messages-container">
-            <div class="message sender">Hello, how can I help?</div>
-            <div class="message receiver">I want to donate to the cause!</div>
-        </div>
-        <div class="input-container">
-            <input type="text" id="message-input" placeholder="Type a message...">
-            <button id="send-button">Send</button>
-        </div>
+    <div class="in-app-messaging">
+        <button id="open-link-btn" class="open-link-btn">💬Chat</button>
     </div>
 
-    <!-- Chat Toggle Button -->
-    <button id="chat-toggle">💬</button>
-
     <script>
-        // Chat toggle functionality
-        const chatToggle = document.getElementById('chat-toggle');
-        const chatBox = document.getElementById('chat-box');
-        chatToggle.addEventListener('click', function() {
-            chatBox.style.display = (chatBox.style.display === 'none' || chatBox.style.display === '') ? 'flex' : 'none';
-        });
-
-        // Message sending functionality
-        const messageInput = document.getElementById('message-input');
-        const sendButton = document.getElementById('send-button');
-        const messagesContainer = document.getElementById('messages-container');
-
-        sendButton.addEventListener('click', function() {
-            const messageText = messageInput.value.trim();
-            if (messageText !== "") {
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('message', 'sender');
-                messageElement.textContent = messageText;
-                messagesContainer.appendChild(messageElement);
-                messageInput.value = '';
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            }
+        // Open link on button click
+        const openLinkButton = document.getElementById('open-link-btn');
+        openLinkButton.addEventListener('click', function() {
+            // Replace the URL with the desired link
+            window.location.href = 'https://realtime-6azr.onrender.com'; // Example link
         });
     </script>
 </body>
