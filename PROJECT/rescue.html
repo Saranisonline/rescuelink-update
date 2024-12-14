@@ -4,6 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rescue Coordination</title>
+    <!-- Firebase SDKs -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCXPSDXGVkkEbYCa1znIDOYZ1rhHB9IMik",
+            authDomain: "street-dog-rescue.firebaseapp.com",
+            databaseURL: "https://street-dog-rescue-default-rtdb.firebaseio.com",
+            projectId: "street-dog-rescue",
+            storageBucket: "street-dog-rescue.appspot.com",
+            messagingSenderId: "442180313573",
+            appId: "1:442180313573:web:f8715716f78374d70f4f0c",
+            measurementId: "G-ZDN9J743V8"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Save rescue details to Firebase
+        window.saveRescueDetails = function() {
+            const dogName = document.getElementById('dogName').value;
+            const dogLocation = document.getElementById('dogLocation').value;
+            const dogCondition = document.getElementById('dogCondition').value;
+            const contactDetails = document.getElementById('contactDetails').value;
+
+            // Validate inputs
+            if (!dogName || !dogLocation || !dogCondition || !contactDetails) {
+                alert("Please fill out all fields.");
+                return;
+            }
+
+            // Push data to Firebase
+            const rescueRef = ref(database, 'rescues');
+            const newRescueRef = push(rescueRef);
+
+            set(newRescueRef, {
+                dogName: dogName,
+                dogLocation: dogLocation,
+                dogCondition: dogCondition,
+                contactDetails: contactDetails,
+                timestamp: Date.now()
+            })
+            .then(() => {
+                document.getElementById('rescueForm').reset();
+                alert('Rescue details saved successfully!');
+            })
+            .catch((error) => {
+                console.error('Error saving rescue details:', error);
+                alert('Error saving rescue details: ' + error.message);
+            });
+        };
+    </script>
     <style>
         /* Background Animation */
         body {
@@ -76,62 +132,7 @@
             text-align: center;
             margin-bottom: 20px;
         }
-
-        /* Notification Styling */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.85);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            font-size: 1rem;
-            z-index: 1000;
-            display: none;
-        }
     </style>
-    <script>
-        // Function to save rescue details to localStorage
-        function saveRescueDetails() {
-            var dogName = document.getElementById('dogName').value;
-            var dogLocation = document.getElementById('dogLocation').value;
-            var dogCondition = document.getElementById('dogCondition').value;
-            var contactDetails = document.getElementById('contactDetails').value;
-
-            // Create an object to hold the rescue details
-            var rescueDetails = {
-                dogName: dogName,
-                dogLocation: dogLocation,
-                dogCondition: dogCondition,
-                contactDetails: contactDetails
-            };
-
-            // Save the object in localStorage
-            var rescues = JSON.parse(localStorage.getItem('rescues')) || [];
-            rescues.push(rescueDetails);
-            localStorage.setItem('rescues', JSON.stringify(rescues));
-
-            // Clear the form fields
-            document.getElementById('rescueForm').reset();
-
-            // Show notification
-            showNotification('Rescue details saved successfully!');
-        }
-
-        // Function to show a notification
-        function showNotification(message) {
-            var notification = document.querySelector('.notification');
-            notification.innerText = message;
-            notification.style.display = 'block';
-
-            // Hide notification after 3 seconds
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
-        }
-    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -168,8 +169,5 @@
             <button type="button" onclick="saveRescueDetails()">Save Rescue Details</button>
         </form>
     </main>
-
-    <!-- Notification -->
-    <div class="notification"></div>
 </body>
 </html>
