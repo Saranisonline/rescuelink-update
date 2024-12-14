@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emergency Support</title>
+    <title>View Rescues</title>
     <style>
-        /* General Styling */
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1, #f3a683);
             background-size: 300% 300%;
-            animation: gradientBackground 10s ease infinite;
-            color: #333;
+            animation: gradientBackground 8s ease infinite;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            color: white;
         }
 
         @keyframes gradientBackground {
@@ -22,227 +20,116 @@
             100% { background-position: 0% 50%; }
         }
 
-        header {
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 10px 20px;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
+        /* Table Styling */
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        nav {
-            display: flex;
-            gap: 15px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: white;
-            font-size: 16px;
-        }
-
-        .notification-bell {
-            position: relative;
-            cursor: pointer;
-            font-size: 24px;
-        }
-
-        .notification-bell span {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: red;
-            color: white;
-            border-radius: 50%;
-            padding: 4px 8px;
-            font-size: 12px;
-            display: none;
-        }
-
-        .notification-popup {
-            display: none;
-            position: fixed;
-            top: 60px;
-            right: 20px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            width: 250px;
+        th, td {
             padding: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            max-height: 60vh;
-            overflow-y: auto;
+            border: 1px solid #fff;
+            text-align: left;
         }
 
-        .notification-popup ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
+        th {
+            background-color: #ffd700;
+            color: #333;
         }
 
-        .notification-popup li {
-            padding: 8px 0;
-            border-bottom: 1px solid #ddd;
-            opacity: 0;
-            animation: fadeInUp 0.5s ease forwards;
-        }
-
-        .notification-popup li:nth-child(odd) {
-            color: #ff6f61; /* Red-ish color */
-        }
-
-        .notification-popup li:nth-child(even) {
-            color: #4caf50; /* Green color */
-        }
-
-        .notification-popup li:nth-child(3n) {
-            color: #3f51b5; /* Blue color */
-        }
-
-        /* Notification text effects */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .notification-popup li:hover {
-            background-color: #f0f0f0;
-            cursor: pointer;
-            transform: scale(1.05);
-            transition: all 0.3s ease;
-        }
-
-        main {
-            padding: 20px;
+        td {
+            background-color: rgba(0, 0, 0, 0.7);
         }
 
         h2 {
             text-align: center;
-            color: white;
-        }
-
-        #rescueList {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .rescue-item {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .notification-popup {
-                width: 200px;
-                top: 50px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 18px;
-            }
-
-            nav a {
-                font-size: 14px;
-            }
-
-            .notification-popup {
-                width: 180px;
-                top: 40px;
-            }
-
-            .notification-bell {
-                font-size: 20px;
-            }
         }
     </style>
-    <script>
-        window.onload = function () {
-            var rescues = JSON.parse(localStorage.getItem('rescues')) || [];
-            var rescueList = document.getElementById('rescueList');
-            var notificationList = document.getElementById('notificationList');
-            var notificationBadge = document.querySelector('.notification-bell span');
-            var notificationPopup = document.querySelector('.notification-popup');
-            var bell = document.querySelector('.notification-bell');
-
-            // Display rescues
-            rescueList.innerHTML = rescues.length
-                ? rescues.map(rescue => `
-                    <div class="rescue-item">
-                        <h3>${rescue.dogName}</h3>
-                        <p><strong>Location:</strong> ${rescue.dogLocation}</p>
-                        <p><strong>Condition:</strong> ${rescue.dogCondition}</p>
-                        <p><strong>Contact:</strong> ${rescue.contactDetails}</p>
-                    </div>
-                `).join('')
-                : '<p>No rescue details available.</p>';
-
-            // Add notifications with shortened details
-            var notifications = rescues.map(rescue => 
-                `${rescue.dogName} - ${rescue.dogLocation}, Condition: ${rescue.dogCondition}`
-            );
-            notificationList.innerHTML = notifications.map(notif => `<li>${notif}</li>`).join('');
-
-            // Update notification badge if there are notifications
-            if (notifications.length > 0) {
-                notificationBadge.textContent = notifications.length;
-                notificationBadge.style.display = 'inline';
-            } else {
-                notificationBadge.style.display = 'none';
-            }
-
-            // Toggle notification popup when the bell is clicked
-            bell.addEventListener('click', function () {
-                if (notificationPopup.style.display === 'block') {
-                    notificationPopup.style.display = 'none';
-                } else {
-                    notificationPopup.style.display = 'block';
-                }
-            });
-        };
-    </script>
 </head>
 <body>
+
     <header>
-        <h1>Street Dog Rescue</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="rescue.html">Rescue</a>
-            <a href="shelters.html">Safety Alerts</a>
-            <a href="donations.html">Donations</a>
-            <a href="adoption.html">Adoption</a>
-            <a href="view_rescue.html">View Rescues</a>
-        </nav>
-        <div class="notification-bell">
-            🔔<span>0</span>
-        </div>
-        <div class="notification-popup">
-            <ul id="notificationList"></ul>
-        </div>
+        <h1>View Rescues</h1>
     </header>
 
     <main>
-        <h2>Emergency Support</h2>
-        <div id="rescueList"></div>
+        <h2>Rescue Coordination Details</h2>
+        <table id="rescuesTable" aria-label="Table displaying rescue details">
+            <thead>
+                <tr>
+                    <th>Dog Name</th>
+                    <th>Location</th>
+                    <th>Condition</th>
+                    <th>Contact Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rescue details will be populated here -->
+            </tbody>
+        </table>
     </main>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js';
+        import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCXPSDXGVkkEbYCa1znIDOYZ1rhHB9IMik",
+            authDomain: "street-dog-rescue.firebaseapp.com",
+            databaseURL: "https://street-dog-rescue-default-rtdb.firebaseio.com",
+            projectId: "street-dog-rescue",
+            storageBucket: "street-dog-rescue.appspot.com",
+            messagingSenderId: "442180313573",
+            appId: "1:442180313573:web:f8715716f78374d70f4f0c",
+            measurementId: "G-ZDN9J743V8"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Function to fetch and display rescue details
+        async function fetchRescueDetails() {
+            try {
+                const rescuesRef = ref(database, 'rescues');
+                const snapshot = await get(rescuesRef);
+
+                if (snapshot.exists()) {
+                    const rescues = snapshot.val();
+                    const tableBody = document.getElementById('rescuesTable').getElementsByTagName('tbody')[0];
+
+                    // Loop through the rescues data and append rows to the table
+                    Object.keys(rescues).forEach((key) => {
+                        const rescue = rescues[key];
+                        const row = tableBody.insertRow();
+
+                        const cell1 = row.insertCell(0);
+                        const cell2 = row.insertCell(1);
+                        const cell3 = row.insertCell(2);
+                        const cell4 = row.insertCell(3);
+
+                        cell1.textContent = rescue.dogName || 'N/A';
+                        cell2.textContent = rescue.dogLocation || 'N/A';
+                        cell3.textContent = rescue.dogCondition || 'N/A';
+                        cell4.textContent = rescue.contactDetails || 'N/A';
+                    });
+                } else {
+                    alert("No rescue details available.");
+                }
+            } catch (error) {
+                console.error('Error fetching rescue details:', error);
+                alert('An error occurred while fetching rescue details. Please try again later.');
+            }
+        }
+
+        // Fetch data when page loads
+        fetchRescueDetails();
+    </script>
+
 </body>
 </html>
+
+
