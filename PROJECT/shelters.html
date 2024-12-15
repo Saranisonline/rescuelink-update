@@ -226,47 +226,81 @@
             <h3>User Submitted Alerts</h3>
         </div>
     </main>
+    <script type="module">
+        // Firebase SDK Imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
 
-    <script>
-        // Retrieve and display stored alerts when the page loads
-        window.onload = function() {
-            const storedAlerts = JSON.parse(localStorage.getItem('alerts')) || [];
-            const userAlertContainer = document.getElementById('user-alert-container');
-            storedAlerts.forEach(alert => {
-                const userAlert = document.createElement('div');
-                userAlert.className = 'user-alert';
-                userAlert.innerHTML = `<strong>Location:</strong> ${alert.location}<br><strong>Details:</strong> ${alert.details}`;
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCXPSDXGVkkEbYCa1znIDOYZ1rhHB9IMik",
+            authDomain: "street-dog-rescue.firebaseapp.com",
+            databaseURL: "https://street-dog-rescue-default-rtdb.firebaseio.com",
+            projectId: "street-dog-rescue",
+            storageBucket: "street-dog-rescue.appspot.com",
+            messagingSenderId: "442180313573",
+            appId: "1:442180313573:web:f8715716f78374d70f4f0c"
+        };
+
+        // Initialize Firebase
+        try {
+            const app = initializeApp(firebaseConfig);
+            console.log("Firebase initialized successfully");
+            const database = getDatabase(app);
+
+            // Submit Alert Function
+            window.submitAlert = function (locationId, detailsId) {
+                const locationInput = document.getElementById(locationId);
+                const detailsInput = document.getElementById(detailsId);
+
+                const location = locationInput.value.trim();
+                const details = detailsInput.value.trim();
+
+                if (!location || !details) {
+                    alert("Please enter both location and alert details.");
+                    return;
+                }
+
+                console.log("Submitting alert:", { location, details });
+
+                const alertsRef = ref(database, "alerts");
+                push(alertsRef, {
+                    location,
+                    details,
+                    timestamp: new Date().toISOString()
+                })
+                .then(() => {
+                    console.log("Alert submitted successfully!");
+                    locationInput.value = "";
+                    detailsInput.value = "";
+                })
+                .catch((error) => {
+                    console.error("Error submitting alert:", error);
+                    alert("Failed to submit alert. Please try again.");
+                });
+            };
+
+            // Listen for Alerts
+            const alertsRef = ref(database, "alerts");
+            const userAlertContainer = document.getElementById("user-alert-container");
+
+            onChildAdded(alertsRef, (snapshot) => {
+                const { location, details } = snapshot.val();
+
+                // Create Alert Element
+                const userAlert = document.createElement("div");
+                userAlert.className = "user-alert";
+                userAlert.innerHTML = `
+                    <strong>Location:</strong> ${location}<br>
+                    <strong>Details:</strong> ${details}
+                `;
+
                 userAlertContainer.appendChild(userAlert);
             });
-        }
-
-        // Function to submit and store alerts
-        function submitAlert(locationId, detailsId) {
-            const location = document.getElementById(locationId).value.trim();
-            const details = document.getElementById(detailsId).value.trim();
-
-            if (location && details) {
-                const userAlertContainer = document.getElementById('user-alert-container');
-
-                // Create a new alert element
-                const userAlert = document.createElement('div');
-                userAlert.className = 'user-alert';
-                userAlert.innerHTML = `<strong>Location:</strong> ${location}<br><strong>Details:</strong> ${details}`;
-
-                userAlertContainer.appendChild(userAlert);
-
-                // Store the alert in localStorage
-                const storedAlerts = JSON.parse(localStorage.getItem('alerts')) || [];
-                storedAlerts.push({ location, details });
-                localStorage.setItem('alerts', JSON.stringify(storedAlerts));
-
-                // Clear the input fields
-                document.getElementById(locationId).value = '';
-                document.getElementById(detailsId).value = '';
-            } else {
-                alert('Please enter both location and alert details.');
-            }
+        } catch (error) {
+            console.error("Error initializing Firebase:", error);
         }
     </script>
+    
 </body>
 </html>
