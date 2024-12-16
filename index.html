@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dog Chasing Man - Immersive Loading Page</title>
+  <style>
+    /* General Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      overflow: hidden;
+      height: 100vh;
+      background: linear-gradient(135deg, #2a2d34, #3f4450);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      color: #fff;
+    }
+
+    /* Background Particles */
+    .background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      animation: particleMove 7s linear infinite;
+    }
+
+    .particle:nth-child(1) {
+      top: 20%;
+      left: 15%;
+      animation-duration: 5s;
+    }
+
+    .particle:nth-child(2) {
+      top: 50%;
+      left: 40%;
+      animation-duration: 7s;
+    }
+
+    .particle:nth-child(3) {
+      top: 70%;
+      left: 70%;
+      animation-duration: 6s;
+    }
+
+    .particle:nth-child(4) {
+      top: 30%;
+      left: 80%;
+      animation-duration: 8s;
+    }
+
+    .particle:nth-child(5) {
+      top: 80%;
+      left: 20%;
+      animation-duration: 5.5s;
+    }
+
+    @keyframes particleMove {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-200px) scale(0.5);
+        opacity: 0;
+      }
+    }
+
+    /* Content Container */
+    .content {
+      text-align: center;
+      z-index: 2;
+    }
+
+    /* Logo */
+    .logo img {
+      width: 120px;
+      animation: pulse 3s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+    }
+
+    /* Title */
+    .title {
+      font-size: 2.5rem;
+      margin: 20px 0;
+      animation: fadeIn 2s ease-out;
+    }
+
+    .highlight {
+      color: #ffb74d;
+      text-shadow: 0 0 10px #ffb74d;
+    }
+
+    /* Subtitle */
+    .subtitle {
+      font-size: 1.2rem;
+      color: #cfd8dc;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease-out 0.5s;
+    }
+
+    /* Video Container */
+    .video-container {
+      position: relative;
+      width: 70%;
+      max-width: 600px;
+      margin: 0 auto;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    #chaseVideo {
+      width: 100%;
+      height: auto;
+    }
+
+    /* Typing Effect */
+    .typing {
+      margin-top: 20px;
+      font-size: 1.3rem;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid #fff;
+      width: 90%;
+      margin: 0 auto;
+      animation: typing 4s steps(30, end), blink 0.8s step-end infinite;
+    }
+
+    @keyframes typing {
+      from {
+        width: 0;
+      }
+      to {
+        width: 100%;
+      }
+    }
+
+    @keyframes blink {
+      50% {
+        border-color: transparent;
+      }
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      margin: 30px auto;
+      width: 80%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      overflow: hidden;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .progress {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(to right, #ff6b6b, #ffcc00, #6bccff);
+      animation: loadProgress 4s linear infinite;
+    }
+
+    @keyframes loadProgress {
+      0% {
+        width: 0;
+      }
+      100% {
+        width: 100%;
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .title {
+        font-size: 2rem;
+      }
+      .subtitle {
+        font-size: 1rem;
+      }
+      .video-container {
+        width: 90%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .title {
+        font-size: 1.5rem;
+      }
+      .subtitle {
+        font-size: 0.9rem;
+      }
+      .video-container {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Particles -->
+  <div class="background">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Loading Content -->
+  <div class="content">
+    
+
+    <!-- Animated Title -->
+    <h1 class="title">
+      Welcome to <span class="highlight">ChaseWorld</span>
+    </h1>
+    <p class="subtitle">Let the chase begin...</p>
+
+    <!-- Video Animation -->
+    <div class="video-container">
+      <video autoplay muted loop id="chaseVideo">
+        <source src="Dog Leaving.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <!-- Typing Effect -->
+    <div class="typing">
+      <span id="typing-text"></span>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+      <div class="progress"></div>
+    </div>
+  </div>
+
+  <script>
+    const texts = [
+      "Exciting things are on the way...",
+      "Let’s unleash creativity!",
+      "Bringing the chase to life..."
+    ];
+
+    let index = 0;
+    let charIndex = 0;
+    const typingText = document.getElementById("typing-text");
+
+    function typeText() {
+      if (charIndex < texts[index].length) {
+        typingText.textContent += texts[index].charAt(charIndex);
+        charIndex++;
+        setTimeout(typeText, 100); // Typing speed
+      } else {
+        setTimeout(eraseText, 2000); // Pause before erasing
+      }
+    }
+
+    function eraseText() {
+      if (charIndex > 0) {
+        typingText.textContent = texts[index].substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(eraseText, 50); // Erasing speed
+      } else {
+        index = (index + 1) % texts.length; // Loop to the next text
+        setTimeout(typeText, 500); // Delay before typing next text
+      }
+    }
+
+    typeText();
+
+     // Redirect to home page after loading
+     setTimeout(function() {
+      window.location.href = 'home.html'; // Replace 'home.html' with your home page URL
+    }, 5000);  // 5 seconds delay to simulate the loading time
+  </script>
+</body>
+</html>
+
