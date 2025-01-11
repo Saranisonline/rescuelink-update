@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #eceff1; /* Light background color */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            background-color: #263238;
+            color: white;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid #4caf50;
+        }
+        header nav {
+            margin-top: 10px;
+        }
+        header nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        header nav a:hover {
+            text-decoration: underline;
+        }
+        main {
+            padding: 30px;
+            width: 80%;
+            max-width: 1200px;
+            margin-top: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        section {
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            transition: transform 0.3s ease; /* Smooth transition for table */
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease; /* Animation for row hover */
+        }
+        th {
+            background-color: #4caf50;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1; /* Hover effect on rows */
+            color: #000;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+        .button-container button {
+            padding: 10px 18px;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .edit-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .remove-button {
+            background-color: #f44336;
+            color: white;
+        }
+        .button-container button:hover {
+            opacity: 0.8;
+            transform: scale(1.05); /* Button hover animation */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Slight shadow on hover */
+        }
+        .edit-button:hover {
+            background-color: #45a049;
+        }
+        .remove-button:hover {
+            background-color: #e53935;
+        }
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            main {
+                width: 100%;
+                padding: 20px;
+            }
+            table {
+                font-size: 14px;
+            }
+            .button-container button {
+                font-size: 12px;
+            }
+        }
+        /* Modal for Edit Confirmation */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Admin Dashboard</h1>
+        <nav>
+            <a href="#rescues">Rescue Details</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Rescue Details Section -->
+        <section id="rescues">
+            <h2>Rescue Coordination Details</h2>
+            <table id="rescuesTable">
+                <thead>
+                    <tr>
+                        <th>Dog Name</th>
+                        <th>Location</th>
+                        <th>Condition</th>
+                        <th>Contact Details</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be fetched here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Confirm Edit</h3>
+            <p>Are you sure you want to edit this entry?</p>
+            <button onclick="confirmEdit()">Confirm</button>
+            <button onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        import { getDatabase, ref, onValue, update, remove } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCXPSDXGVkkEbYCa1znIDOYZ1rhHB9IMik",
+            authDomain: "street-dog-rescue.firebaseapp.com",
+            databaseURL: "https://street-dog-rescue-default-rtdb.firebaseio.com",
+            projectId: "street-dog-rescue",
+            storageBucket: "street-dog-rescue.appspot.com",
+            messagingSenderId: "442180313573",
+            appId: "1:442180313573:web:f8715716f78374d70f4f0c",
+            measurementId: "G-ZDN9J743V8"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        let editKey = ''; // Store the key for the record to be edited
+
+        // Fetch Rescue Details
+        function fetchRescueDetails() {
+            const rescuesRef = ref(database, 'rescues');
+            onValue(rescuesRef, (snapshot) => {
+                const data = snapshot.val();
+                const rescuesTableBody = document.querySelector('#rescuesTable tbody');
+                rescuesTableBody.innerHTML = ''; // Clear existing rows
+
+                if (data) {
+                    Object.keys(data).forEach((key) => {
+                        const rescue = data[key];
+                        const dogName = rescue.dogName || "N/A";
+                        const location = rescue.dogLocation || "N/A";
+                        const condition = rescue.dogCondition || "N/A";
+                        const contact = rescue.contactDetails || "N/A";
+
+                        const row = `
+                            <tr id="${key}">
+                                <td contenteditable="true">${dogName}</td>
+                                <td contenteditable="true">${location}</td>
+                                <td contenteditable="true">${condition}</td>
+                                <td contenteditable="true">${contact}</td>
+                                <td class="button-container">
+                                    <button class="edit-button" onclick="editRescue('${key}')">Edit</button>
+                                    <button class="remove-button" onclick="removeRescue('${key}')">Remove</button>
+                                </td>
+                            </tr>`;
+                        rescuesTableBody.innerHTML += row;
+                    });
+                } else {
+                    rescuesTableBody.innerHTML = '<tr><td colspan="5">No rescue details available.</td></tr>';
+                }
+            });
+        }
+
+        // Edit Rescue Details
+        function editRescue(key) {
+            editKey = key;
+            document.getElementById("editModal").style.display = "block"; // Show modal
+        }
+
+        function confirmEdit() {
+            const row = document.getElementById(editKey);
+            const updatedRescue = {
+                dogName: row.cells[0].textContent.trim(),
+                dogLocation: row.cells[1].textContent.trim(),
+                dogCondition: row.cells[2].textContent.trim(),
+                contactDetails: row.cells[3].textContent.trim()
+            };
+            const rescueRef = ref(database, 'rescues/' + editKey);
+
+            update(rescueRef, updatedRescue)
+                .then(() => {
+                    alert('Rescue details updated successfully');
+                    fetchRescueDetails(); // Refresh the table
+                    closeModal();
+                })
+                .catch((error) => {
+                    console.error('Error updating rescue: ', error);
+                    alert('Error updating rescue');
+                });
+        }
+
+        function closeModal() {
+            document.getElementById("editModal").style.display = "none"; // Close modal
+        }
+
+        // Remove Rescue Entry
+        function removeRescue(key) {
+            const rescueRef = ref(database, 'rescues/' + key);
+
+            remove(rescueRef)
+                .then(() => {
+                    alert('Rescue removed successfully');
+                    fetchRescueDetails(); // Refresh the table
+                })
+                .catch((error) => {
+                    console.error('Error removing rescue: ', error);
+                    alert('Error removing rescue');
+                });
+        }
+
+        window.onload = function () {
+            fetchRescueDetails();
+        };
+    </script>
+</body>
+</html>
