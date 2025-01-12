@@ -3,139 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
+    <title>Animated Admin Login</title>
+ 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
     <style>
-        /* Basic styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
+        /* Global Styles */
+        * {
             padding: 0;
-            background: #eceff1;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #080710;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            transition: background-color 0.3s ease;
+            overflow: hidden;
+        }
+        .background .shape {
+            height: 250px;
+            width: 250px;
+            position: absolute;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        .shape:first-child {
+            background: linear-gradient(#1845ad, #23a2f6);
+            left: -100px;
+            top: -100px;
+            animation-delay: 0s;
+        }
+        .shape:last-child {
+            background: linear-gradient(to right, #ff512f, #f09819);
+            right: -100px;
+            bottom: -100px;
+            animation-delay: 2s;
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-20px) translateX(20px);
+            }
         }
 
-        .login-container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-            width: 100%;
+        /* Login Form */
+        form {
+            width: 90%;
             max-width: 400px;
-            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            background-color: rgba(255, 255, 255, 0.15);
+            position: relative;
+            border-radius: 10px;
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+            padding: 50px 40px;
+            margin: auto;
+            animation: fadeIn 1.5s ease-out;
         }
-
-        .login-container h2 {
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        form h3 {
+            font-size: 28px;
+            font-weight: 500;
             text-align: center;
+            color: #ffffff;
             margin-bottom: 20px;
-            color: #333;
-            font-size: 24px;
-            transition: color 0.3s ease;
         }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+        label {
+            display: block;
+            margin-top: 20px;
             font-size: 14px;
-            transition: border 0.3s ease, box-shadow 0.3s ease;
+            font-weight: 500;
+            color: #ffffff;
         }
-
-        input:focus {
-            border-color: #4CAF50;
-            box-shadow: 0 0 5px rgba(76, 175, 80, 0.7);
-        }
-
-        button {
+        input {
+            display: block;
             width: 100%;
-            padding: 12px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0.07);
             border-radius: 5px;
+            padding: 0 10px;
+            margin-top: 8px;
+            font-size: 14px;
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+        input:focus {
+            background-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        ::placeholder {
+            color: #e5e5e5;
+        }
+        button {
+            margin-top: 30px;
+            width: 100%;
+            background-color: #ffffff;
+            color: #080710;
+            padding: 12px 0;
             font-size: 16px;
+            font-weight: 600;
+            border-radius: 5px;
             cursor: pointer;
-            transition: opacity 0.3s, transform 0.3s ease;
+            transition: all 0.3s ease;
+            transform: scale(1);
         }
-
         button:hover {
-            opacity: 0.8;
+            background-color: #23a2f6;
+            color: #ffffff;
             transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(35, 162, 246, 0.6);
         }
 
-        /* Media queries for responsiveness */
-        @media (max-width: 600px) {
-            body {
-                background-color: #f4f4f9;
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            form {
+                padding: 30px 20px;
             }
-
-            .login-container {
+            form h3 {
+                font-size: 24px;
+            }
+        }
+        @media (max-width: 480px) {
+            .shape:first-child {
+                left: -150px;
+                top: -150px;
+            }
+            .shape:last-child {
+                right: -150px;
+                bottom: -150px;
+            }
+            form {
                 padding: 20px;
-                width: 90%;
-                max-width: 100%;
-                transform: translateY(-20px);
             }
-
-            .login-container h2 {
+            form h3 {
                 font-size: 20px;
-            }
-
-            input, button {
-                font-size: 14px;
-                padding: 10px;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .login-container {
-                padding: 15px;
-            }
-
-            input, button {
-                font-size: 13px;
-                padding: 8px;
             }
         }
     </style>
 </head>
 <body>
-
-    <!-- Admin Login Form -->
-    <div class="login-container">
-        <h2>Admin Login</h2>
-        <input type="text" id="username" placeholder="Username" required>
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button onclick="login()">Login</button>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
     </div>
+    <form onsubmit="login(event)">
+        <h3>Admin Login</h3>
+
+        <label for="username">Username</label>
+        <input type="text" placeholder="Enter your username" id="username" required>
+
+        <label for="email">Email</label>
+        <input type="email" placeholder="Enter your email" id="email" required>
+
+        <label for="password">Password</label>
+        <input type="password" placeholder="Enter your password" id="password" required>
+
+        <button type="submit">Log In</button>
+    </form>
 
     <script>
-        // Hardcoded Admin Credentials for Validation
         const adminCredentials = {
-            username: "Saran",  // Admin Username
-            email: "saran.saravanan@gmail.com",  // Admin Email
-            password: "admin123"  // Admin Password
+            username: "Saran",
+            email: "saran.saravanan@gmail.com",
+            password: "admin123"
         };
 
-        function login() {
-            const username = document.getElementById("username").value;  // Corrected the ID for username input
-            const email = document.getElementById("email").value;  // Corrected the ID for email input
-            const password = document.getElementById("password").value;  // Corrected the ID for password input
+        function login(event) {
+            event.preventDefault(); // Prevent form submission
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
 
-            // Check if credentials match the hardcoded values
-            if (username === adminCredentials.username && email === adminCredentials.email && password === adminCredentials.password) {
-                // If valid, redirect to the admin dashboard
-                window.location.href = "dashboard.html";  // Redirect to the Dashboard (Ensure the dashboard.html exists)
+            if (
+                username === adminCredentials.username &&
+                email === adminCredentials.email &&
+                password === adminCredentials.password
+            ) {
+                window.location.href = "dashboard.html"; // Redirect to dashboard
             } else {
                 alert("Invalid credentials. Please try again.");
             }
         }
     </script>
-
 </body>
 </html>
