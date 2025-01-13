@@ -124,11 +124,10 @@
                 <thead>
                     <tr>
                       
-                        <th>Alert ID</th>
+                        
                         <th>Location</th>
-                        <th>Description</th>
-                        <th>Date</th>
-                        <th>Actions</th>
+                        <th>Details</th>
+                        <th>Action</th>
                         
                     </tr>
                 </thead>
@@ -194,12 +193,12 @@
                 tableBody.innerHTML = "";
                 if (data) {
                     Object.keys(data).forEach((key) => {
-                        const { alert, location, date } = data[key];
+                        const { location, details } = data[key];
                         tableBody.innerHTML += `
                             <tr id="${key}">
-                                <td contenteditable="true">${alert}</td>
+                                
                                 <td contenteditable="true">${location}</td>
-                                <td contenteditable="true">${date}</td>
+                                <td contenteditable="true">${details}</td>
                                 <td>
                                     <button class="edit-button" onclick="editSafetyAlert('${key}')">Edit</button>
                                     <button class="remove-button" onclick="removeSafetyAlert('${key}')">Remove</button>
@@ -220,7 +219,7 @@
 
             if (alert && location) {
                 const newAlertRef = push(ref(database, "alerts"));
-                set(newAlertRef, { alert, location, date })
+                set(newAlertRef, {  location, details })
                     .then(() => alert("Alert added successfully."))
                     .catch((error) => alert("Error adding alert: " + error));
             }
@@ -230,9 +229,9 @@
         window.editSafetyAlert = function (key) {
             const row = document.getElementById(key);
             const updatedAlert = {
-                alert: row.cells[0].textContent,
+                
                 location: row.cells[1].textContent,
-                date: row.cells[2].textContent,
+                details: row.cells[2].textContent,
             };
 
             update(ref(database, "alerts/" + key), updatedAlert)
